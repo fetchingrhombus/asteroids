@@ -11,13 +11,19 @@ def main():
     print("Screen height:",SCREEN_HEIGHT)
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+
     while(True):
+        log_state()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        log_state()
+            
         #pygame.Surface.fill("black")
-        pygame.Surface.fill(screen, (0,0,0))
+        #pygame.Surface.fill(screen, (0,0,0)), I did this personally, because I could make it work, but it turns out you can do the line below
+        screen.fill("black")
+        #I have no idea what this line below this does
         pygame.display.flip()
 
 
