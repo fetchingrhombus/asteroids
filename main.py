@@ -2,6 +2,9 @@ import pygame
 from constants import *
 # or import everything: from module_name import *
 from logger import log_state
+#importing from the player class code that we wrote
+from player import Player
+
 
 
 
@@ -17,6 +20,10 @@ def main():
     dt = 0
     #defining how big the screen will be from "constants" file
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    #making the player appear on the screen
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player(x,y)
     
     #making the game loop
     while(True):
@@ -31,11 +38,19 @@ def main():
         #pygame.Surface.fill("black")
         #pygame.Surface.fill(screen, (0,0,0)), I did this personally, because I could make it work, but it turns out you can do the line below
         screen.fill("black")
-        #I have no idea what this line below this does
+
+        #I'm going to be updating the dude here so that he moves
+        player.update(dt)
+       
+
+       #attempting to draw the player, I'm doing this by calling the player class, with the method of "draw" and telling it to go to "screen"
+        #This is where we are rendering the dude
+        player.draw(screen)
+        #I have no idea what this line below this does, but it must be done after all other drawing commands
         pygame.display.flip()
         
 
-        #Here, we are going to call the .tick method on the clock object, pass it 60, which is what is going to set us to 60 FPS
+        #Here, we are going to call the .tick method on the clock object, pass it 60, which is what is going to set us to 60 FPS. The divide by 1k is to convert up from miliseconds`
         dt = clock.tick(60) / 1000
         
 
