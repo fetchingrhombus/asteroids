@@ -10,6 +10,8 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from logger import log_event
 import sys
+#importing the ability to shoot
+from shot import Shot
 
 def main():
     print("Starting Asteroids with pygame version:", pygame.version.ver)
@@ -29,6 +31,8 @@ def main():
     drawable = pygame.sprite.Group()
     #making the asteroid group
     asteroids = pygame.sprite.Group()
+    #making the shot group
+    shots = pygame.sprite.Group()
 
     #Player is the name of the class, not an instance of it, This must be done before any players are created
     Player.containers = (updatable, drawable)
@@ -42,6 +46,8 @@ def main():
     #Making an asteroidfield object
     Asteroid_Field = AsteroidField()
     
+    #Making a shot container
+    Shot.containers = (shots,updatable,drawable)
     
 
     #making the player appear on the screen, this puts him exactly in the middle of the screen
@@ -70,16 +76,23 @@ def main():
         #Now that we have a group (with the player container, and the two groups) we will be moving the player through this instead.We use the updatable.update method to state "things that belong to the updatable group, need to call the .update method"
         updatable.update(dt)
         for objects in drawable:
-            objects.draw(screen)
-        
+            objects.draw(screen)            
+
+
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 print("Game Over!")
                 log_event("player_hit")
                 sys.exit()
-
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
+                    shot.kill()
+                    asteroid.split()
+        
         #I'm going to repeat what I did above, but this time, for the drawables
         #drawable.update(dt)
+       
        
 
        #attempting to draw the player, I'm doing this by calling the player class, with the method of "draw" and telling it to go to "screen"
